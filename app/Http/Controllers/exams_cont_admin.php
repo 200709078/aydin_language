@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\exams_model;
 use Illuminate\Http\Request;
 
 class exams_cont_admin extends Controller
@@ -12,7 +13,8 @@ class exams_cont_admin extends Controller
      */
     public function index()
     {
-        //
+        $exams = exams_model::paginate(5);
+        return view('admin.exams.exams', compact('exams'));
     }
 
     /**
@@ -20,7 +22,7 @@ class exams_cont_admin extends Controller
      */
     public function create()
     {
-        //
+        return 'create çalıştı...';
     }
 
     /**

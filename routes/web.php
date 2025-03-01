@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\exams_cont_admin;
 use App\Http\Middleware\isAdmin_middle;
 use Illuminate\Support\Facades\Route;
 
@@ -17,11 +18,6 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::group([
-    'middleware' => ['auth', isAdmin_middle::class],
-    'prefix'=>'admin'
-], function () {
-    Route::get('deneme', function () {
-        return "middleware/prefix testi";
-    });
+Route::group(['middleware' => ['auth', isAdmin_middle::class],'prefix'=>'admin'], function () {
+    Route::resource('exams', exams_cont_admin::class);
 });
