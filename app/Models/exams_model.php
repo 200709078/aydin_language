@@ -12,6 +12,6 @@ class exams_model extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'title',
-        'discription'
+        'description'
     ];
 }

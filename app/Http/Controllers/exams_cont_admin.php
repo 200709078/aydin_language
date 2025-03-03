@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\exams_model;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
+use App\Http\Requests\ExamCreateRequest;
 
 class exams_cont_admin extends Controller
 {
@@ -14,7 +16,7 @@ class exams_cont_admin extends Controller
     public function index()
     {
         $exams = exams_model::paginate(5);
-        return view('admin.exams.exams', compact('exams'));
+        return view('admin.exams.list', compact('exams'));
     }
 
     /**
@@ -22,15 +24,16 @@ class exams_cont_admin extends Controller
      */
     public function create()
     {
-        return 'create çalıştı...';
+        return view('admin.exams.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ExamCreateRequest $request)
     {
-        //
+        exams_model::create($request->post());
+        return redirect()->route('exams.index')->with('success','NEW EXAM ADD SUCCESFULLY...');
     }
 
     /**
