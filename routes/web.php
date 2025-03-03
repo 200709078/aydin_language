@@ -18,6 +18,7 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::group(['middleware' => ['auth', isAdmin_middle::class],'prefix'=>'admin'], function () {
+Route::group(['middleware' => ['auth', isAdmin_middle::class], 'prefix' => 'admin'], function () {
+    Route::get('exams/{id}', [exams_cont_admin::class, 'destroy'])->whereNumber('id')->name('exams.destroy');
     Route::resource('exams', exams_cont_admin::class);
 });

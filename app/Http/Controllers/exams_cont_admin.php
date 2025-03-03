@@ -7,6 +7,8 @@ use App\Models\exams_model;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use App\Http\Requests\ExamCreateRequest;
+use App\Http\Requests\ExamUpdateRequest;
+use Post;
 
 class exams_cont_admin extends Controller
 {
@@ -33,7 +35,7 @@ class exams_cont_admin extends Controller
     public function store(ExamCreateRequest $request)
     {
         exams_model::create($request->post());
-        return redirect()->route('exams.index')->with('success','NEW EXAM ADD SUCCESFULLY...');
+        return redirect()->route('exams.index')->with('success', 'NEW EXAM ADD SUCCESFULLY...');
     }
 
     /**
@@ -49,15 +51,18 @@ class exams_cont_admin extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $exam = exams_model::find($id) ?? abort(404, 'EXAM NOT FOUND');
+        return view('admin.exams.edit', compact('exam'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ExamUpdateRequest $request, string $id)
     {
-        //
+        $exam = exams_model::find($id) ?? abort(404, 'EXAM NOT FOUND');
+        exams_model::where('id', $id)->update($request->except(['_method', '_token']));
+        return redirect()->route('exams.index')->with('success', 'EXAM UPDATE SUCCESFULLY...');
     }
 
     /**
@@ -65,6 +70,8 @@ class exams_cont_admin extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $exam = exams_model::find($id) ?? abort(404, 'EXAM NOT FOUND');
+        $exam->delete();
+        return redirect()->route('exams.index')->with('success', 'EXAM DELETE SUCCESFULLY...');
     }
 }

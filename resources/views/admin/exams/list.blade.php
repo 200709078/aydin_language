@@ -8,10 +8,10 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Exam</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Finihed At</th>
-                        <th scope="col">Operations</th>
+                        <th scope="col">EXAMS</th>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">FINISHED AT</th>
+                        <th scope="col">OPERATIONS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,8 +21,8 @@
                         <td>{{ $exam->status }}</td>
                         <td>{{ $exam->finished_at }}</td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-edit">Edit</i></a>
-                            <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times">Del</i></a>
+                            <a href="{{ route('exams.edit',$exam->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit">Edit</i></a>
+                            <a href="{{ route('exams.destroy',$exam->id) }}" class="btn btn-sm btn-danger"><i class="fa fa-times">Del</i></a>
                         </td>
                     </tr>
                     @endforeach
