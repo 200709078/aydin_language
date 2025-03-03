@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 use App\Models\exams_model;
+use App\Models\questions_model;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -22,7 +23,8 @@ class DatabaseSeeder extends Seeder
             'password' => '$2y$12$Sj8XJ5vfQBpW6opvmlrgTuvnbOKWHBDvg.6o1ZTuKSJPuOzI7oEzu',
             'remember_token' => Str::random(10),
         ]);
-        User::factory(5)->create();
-        exams_model::factory(8)->create();
+        User::factory(10)->create();
+        exams_model::factory(10)->create();
+        questions_model::factory(100)->create();
     }
 }
