@@ -32,17 +32,18 @@ return new class extends Migration {
         });
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('exam_id')->constrained('exams')->onDelete('cascade');
+            $table->unsignedBigInteger('exams_model_id');
             $table->longText('question');
             $table->longText('image')->nullable();
-            $table->string('select1', 100);
-            $table->string('select2', 100);
-            $table->string('select3', 100);
-            $table->string('select4', 100);
-            $table->string('select5', 100);
+            $table->string('select1');
+            $table->string('select2');
+            $table->string('select3');
+            $table->string('select4');
+            $table->string('select5');
             $table->enum('correct_answer', ['select1', 'select2', 'select3', 'select4', 'select5']);
             $table->softDeletes();
             $table->timestamps();
+            $table->foreign('exams_model_id')->references('id')->on('exams')->onDelete('cascade');
         });
         /*         Schema::create('settings', function (Blueprint $table) {
                     $table->id();

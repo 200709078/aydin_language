@@ -17,7 +17,7 @@ class questions_modelFactory extends Factory
     public function definition(): array
     {
         return [
-            'exam_id'=>rand(1,10),
+            'exams_model_id'=>rand(1,10),
             'question'=>fake()->sentence(rand(3,7)),
             'select1'=>fake()->sentence(rand(1,3)),
             'select2'=>fake()->sentence(rand(1,3)),

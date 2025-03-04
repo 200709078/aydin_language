@@ -11,7 +11,7 @@ class questions_model extends Model
     public $table = "questions";
     use HasFactory, SoftDeletes;
     protected $fillable = [
-        'exam_id',
+        'exams_model_id',
         'question',
         'image',
         'select1',
