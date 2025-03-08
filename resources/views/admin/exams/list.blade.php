@@ -8,7 +8,8 @@
             <table class="table table-striped table-sm">
                 <thead>
                     <tr>
-                        <th scope="col">EXAMS</th>
+                        <th scope="col">EXAM</th>
+                        <th scope="col">NUMBER OF QUESTION</th>
                         <th scope="col">STATUS</th>
                         <th scope="col">FINISHED AT</th>
                         <th scope="col">OPERATIONS</th>
@@ -18,11 +19,28 @@
                     @foreach ($exams as $exam)
                         <tr>
                             <th scope="row">{{ $exam->title }}</th>
-                            <td>{{ $exam->status }}</td>
-                            <td>{{ $exam->finished_at }}</td>
+                            <td>{{ $exam->questions_count}}</td>
+                            <td>
+                                @switch($exam->status)
+                                    @case('publish')
+                                        <span class="badge bg-success">Publish</span>
+                                        @break
+                                    @case('unpublish')
+                                        <span class="badge bg-danger">Unpublish</span>
+                                        @break
+                                    @case('draft')
+                                        <span class="badge bg-warning text-dark">Draft</span>
+                                        @break
+                                @endswitch
+                            </td>
+                            <td>
+                                <span title="{{ $exam->finished_at }}">
+                                    {{$exam->finished_at ? $exam->finished_at->diffForHumans():'-'}}
+                                </span>
+                            </td>
                             <td>
                                 <a href="{{ route('questions.index', $exam->id) }}" class="btn btn-sm btn-warning"><i
-                                        class="fa fa-edit">Add Questions</i></a><br>
+                                        class="fa fa-edit">Add New Questions</i></a><br>
                                 <a href="{{ route('exams.edit', $exam->id) }}" class="btn btn-sm btn-primary"><i
                                         class="fa fa-edit">Edit</i></a><br>
                                 <a href="{{ route('exams.destroy', $exam->id) }}" class="btn btn-sm btn-danger"><i

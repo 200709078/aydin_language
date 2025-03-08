@@ -2,7 +2,7 @@
     <x-slot name="header">CREATE NEW QUESTION FOR {{ $exam->title }}</x-slot>
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="{{ route('questions.store',$exam->id) }}">
+            <form method="POST" action="{{ route('questions.store',$exam->id) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label>Question</label>
@@ -46,18 +46,18 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Correct Answer</label>
-                            <select name="correct_answer" id="">
-                                <option value="select1">Select 1</option>
-                                <option value="select2">Select 2</option>
-                                <option value="select3">Select 3</option>
-                                <option value="select4">Select 4</option>
-                                <option value="select5">Select 5</option>
+                            <select name="correct_answer" class="form-control">
+                                <option @if (old('correct_answer')==='select1') selected @endif value="select1">Select 1</option>
+                                <option @if (old('correct_answer')==='select2') selected @endif value="select2">Select 2</option>
+                                <option @if (old('correct_answer')==='select3') selected @endif value="select3">Select 3</option>
+                                <option @if (old('correct_answer')==='select4') selected @endif value="select4">Select 4</option>
+                                <option @if (old('correct_answer')==='select5') selected @endif value="select5">Select 5</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-sm btn-block">EXAM CREATE</button>
+                    <button type="submit" class="btn btn-success btn-sm btn-block">ADD QUESTION</button>
                 </div>
             </form>
         </div>
