@@ -1,39 +1,23 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use App\Models\questions_model;
 use App\Models\exams_model;
-use Illuminate\Http\Request;
 use App\Http\Requests\QuestionCreateRequest;
 use App\Http\Requests\QuestionUpdateRequest;
 use Illuminate\Support\Str;
-use function Livewire\revert;
-
 class questions_cont_admin extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index($id)
     {
         $exam = exams_model::whereId($id)->with('questions')->first() ?? abort(404, 'QUIZ NOT FOUND');
         return view('admin.questions.list', compact('exam'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create($id)
     {
         $exam = exams_model::find($id);
         return view('admin.questions.create', compact('exam'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(QuestionCreateRequest $request, $id)
     {
         if ($request->hasFile('image')) {
@@ -47,27 +31,15 @@ class questions_cont_admin extends Controller
         exams_model::find($id)->questions()->create($request->post());
         return redirect()->route('questions.index', $id)->with('success', 'QUESTION ADD SUCCESSFULLY');
     }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $exam_id, string $question_id)
     {
-        $question = exams_model::find($exam_id)->questions()->whereId($question_id)->first();// ?? abort(404, 'EXAM OR QUESTION NOT FOUND.'); //404 GELMEDİ
+        $question = exams_model::find($exam_id)->questions()->whereId($question_id)->first() ?? abort(404, 'EXAM OR QUESTION NOT FOUND.');
         return view('admin.questions.edit', compact('question'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(QuestionUpdateRequest $request, string $exam_id, string $question_id)
     {
         //$request->except(['_token', '_method']);

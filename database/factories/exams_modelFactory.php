@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\exams_model>
@@ -16,8 +17,10 @@ class exams_modelFactory extends Factory
      */
     public function definition(): array
     {
+        $title=fake()->sentence(rand(3,7));
         return [
-                'title'=>fake()->sentence(rand(3,7)),
+                'title'=>$title,
+                'slug'=>Str::slug($title),
                 'description'=>fake()->text(200)
         ];
     }

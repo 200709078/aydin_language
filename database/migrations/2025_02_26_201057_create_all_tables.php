@@ -24,6 +24,7 @@ return new class extends Migration {
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug')->unique();
             $table->longText('description')->nullable();
             $table->enum('status', ['draft', 'publish', 'unpublish'])->default('draft');
             $table->timestamp('finished_at')->nullable();

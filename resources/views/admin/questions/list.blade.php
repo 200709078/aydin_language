@@ -2,12 +2,11 @@
     <x-slot name="header">QUESTIONS LIST OF {{ $exam->title }}</x-slot>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title float-right">
-                <a href="{{ route('questions.create', $exam->id) }}" class="btn btn-sm btn-primary">Add New
-                    Question</a>
-            </h5>
-            <h5 class="card-title">
-                <a href="{{ route('exams.index') }}" class="btn btn-sm btn-secondary"><i class="fa fa-arrow-left">BACK</i></a>
+            <h5 class="card-title" >
+                <a href="{{ route('exams.index') }}" class="btn btn-sm btn-secondary" title="Back to Exam List"><i
+                        class="fa fa-arrow-left"></i> Back to Exam List</a>
+                <a href="{{ route('questions.create', $exam->id) }}" class="btn btn-sm btn-primary"
+                    title="Add Question"><i class="fa fa-plus"></i> Add Question</a>
             </h5>
             <table class="table table-striped">
                 <thead>
@@ -29,7 +28,8 @@
                             <th scope="row">{{ $question->question }}</th>
                             <td>
                                 @if ($question->image)
-                                    <a href="{{ asset($question->image) }}" target="_blank" class=" btn btn-sm btn-light">Show Image</a>
+                                    <a href="{{ asset($question->image) }}" target="_blank" class=" btn btn-sm btn-light">Show
+                                        Image</a>
                                 @else
                                     <button type="button" class="btn btn-sm btn-light" disabled>No Image</button>
                                 @endif
@@ -42,9 +42,9 @@
                             <td>{{ substr($question->correct_answer, -1) }}</td>
                             <td>
                                 <a href="{{ route('questions.edit', [$exam->id, $question->id]) }}"
-                                    class="btn btn-sm btn-primary"><i class="fa fa-edit">Edit</i></a>
+                                    class="btn btn-sm btn-primary" title="Edit Question"><i class="fa fa-pen"></i></a>
                                 <a href="{{ route('questions.destroy', [$exam->id, $question->id]) }}"
-                                    class="btn btn-sm btn-danger"><i class="fa fa-delete">Del</i></a>
+                                    class="btn btn-sm btn-danger" title="Delete Question"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
                     @endforeach

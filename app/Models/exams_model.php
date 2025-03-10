@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
-
-use illuminate\Database\Eloquent\Relations\BelongsTo;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class exams_model extends Model
 {
     public $table = "exams";
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Sluggable;
     protected $fillable = [
         'title',
+        'slug',
         'description',
+        'status',
         'finished_at'
     ];
     protected $dates = ['finished_at'];
@@ -26,5 +27,13 @@ class exams_model extends Model
     public function questions()
     {
         return $this->hasMany(questions_model::class);
+    }
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
     }
 }

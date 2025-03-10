@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\exams_cont_admin;
+use App\Http\Controllers\main_cont_user;
 use App\Http\Controllers\questions_cont_admin;
 use App\Http\Middleware\isAdmin_middle;
 use Illuminate\Support\Facades\Route;
@@ -9,7 +10,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware([
+/* Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
@@ -17,6 +18,12 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+}); */
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('dashboard', [main_cont_user::class, 'dashboard'])->name('dashboard');
+    Route::get('exam/detail/{slug}', [main_cont_user::class, 'exam_detail'])->name('exam.detail');
+    Route::get('exam/{slug}', [main_cont_user::class, 'exam_join'])->name('exam.join');
 });
 
 Route::group(['middleware' => ['auth', isAdmin_middle::class], 'prefix' => 'admin'], function () {

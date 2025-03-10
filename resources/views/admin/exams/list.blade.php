@@ -2,9 +2,30 @@
     <x-slot name="header">LIST OF EXAMS</x-slot>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">
-                <a href="{{ route('exams.create') }}" class="btn btn-sm btn-primary">Create New Exam</a>
+            <h5 class="card-title float-right">
+                <a href="{{ route('exams.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Create Exam</a>
             </h5>
+            <form method="GET" action="">
+                <div class="form-row">
+                    <div class="col-md-2">
+                        <input type="text" name="title" value="{{request()->get('title')}}" placeholder="Exam Name" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" onchange="this.form.submit()" name="status">
+                            <option value="">Select Status</option>
+                            <option @if(request()->get('status')=='draft') selected @endif value="draft">Draft</option>
+                            <option @if(request()->get('status')=='publish') selected @endif value="publish">Publish</option>
+                            <option @if(request()->get('status')=='unpublish') selected @endif value="unpublish">Unpublish</option>
+                        </select>
+                    </div>
+                    @if(request()->get('title')|| request()->get('status'))
+                        <div class="col-md-2">
+                        <a href="{{ route('exams.index') }}" class="btn btn-secondary">Reset</a>
+                    </div>
+                    @endif
+                </div>
+            </form>
+            
             <table class="table table-striped table-sm">
                 <thead>
                     <tr>
@@ -39,18 +60,18 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ route('questions.index', $exam->id) }}" class="btn btn-sm btn-warning"><i
-                                        class="fa fa-edit">Add New Questions</i></a><br>
-                                <a href="{{ route('exams.edit', $exam->id) }}" class="btn btn-sm btn-primary"><i
-                                        class="fa fa-edit">Edit</i></a><br>
-                                <a href="{{ route('exams.destroy', $exam->id) }}" class="btn btn-sm btn-danger"><i
-                                        class="fa fa-times">Del</i></a>
+                                <a href="{{ route('questions.index', $exam->id) }}" class="btn btn-sm btn-warning" title="List Questions"><i
+                                        class="fa fa-list"></i></a>
+                                <a href="{{ route('exams.edit', $exam->id) }}" class="btn btn-sm btn-primary" title="Edit Exam"><i
+                                        class="fa fa-pen"></i></a>
+                                <a href="{{ route('exams.destroy', $exam->id) }}" class="btn btn-sm btn-danger" title="Delete Exam"><i
+                                        class="fa fa-times"></i></a>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            {{ $exams->links() }}
+            {{ $exams->withQueryString()->links() }}
         </div>
     </div>
 </x-app-layout>
