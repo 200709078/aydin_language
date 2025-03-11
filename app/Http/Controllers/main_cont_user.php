@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Models\exams_model;
+use Illuminate\Http\Request;
 class main_cont_user extends Controller
 {
     public function dashboard()
@@ -13,8 +14,13 @@ class main_cont_user extends Controller
         $exam = exams_model::whereSlug($slug)->withCount('questions')->first() ?? abort(404, "EXAM NOT FOUND.");
         return view("exam_detail", compact('exam'));
     }
-    public function exam_join($slug){
+    public function exam_join($slug)
+    {
         $exam = exams_model::whereSlug($slug)->with('questions')->first() ?? abort(404, 'EXAM NOT FOUND.');
-        return view('exam_join',compact('exam'));
+        return view('exam_join', compact('exam'));
+    }
+    public function exam_result(Request $request, $slug)
+    {
+        return $request->post();
     }
 }

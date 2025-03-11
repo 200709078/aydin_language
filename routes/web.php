@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('dashboard', [main_cont_user::class, 'dashboard'])->name('dashboard');
     Route::get('exam/detail/{slug}', [main_cont_user::class, 'exam_detail'])->name('exam.detail');
     Route::get('exam/{slug}', [main_cont_user::class, 'exam_join'])->name('exam.join');
+    Route::post('exam/{slug}/result', [main_cont_user::class, 'exam_result'])->name('exam.result');
 });
 
 Route::group(['middleware' => ['auth', isAdmin_middle::class], 'prefix' => 'admin'], function () {

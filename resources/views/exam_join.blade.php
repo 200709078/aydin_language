@@ -2,7 +2,8 @@
     <x-slot name="header">DETAIL: {{ $exam->title }} </x-slot>
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('exam.result', $exam->slug) }}">
+                @csrf
                 @foreach ($exam->questions as $question)
                     <strong>{{ $loop->iteration }}) </strong>{{ $question->question }}
                     @if ($question->image)

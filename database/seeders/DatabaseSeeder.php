@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 use App\Models\exams_model;
 use App\Models\questions_model;
+use App\Models\answers_model;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -26,5 +27,6 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         exams_model::factory(10)->create();
         questions_model::factory(100)->create();
+        answers_model::factory(1000)->create();
     }
 }

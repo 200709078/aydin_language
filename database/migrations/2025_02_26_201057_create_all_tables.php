@@ -46,17 +46,16 @@ return new class extends Migration {
             $table->timestamps();
             $table->foreign('exams_model_id')->references('id')->on('exams')->onDelete('cascade');
         });
-        /*         Schema::create('settings', function (Blueprint $table) {
-                    $table->id();
-                    $table->string('title');
-                    $table->string('logo_path');
-                    $table->string('favicon_path');
-                    $table->string('instagram');
-                    $table->string('youtube');
-                    $table->string('facebook');
-                    $table->string('x');
-                    $table->timestamps();
-                }); */
+
+        Schema::create('user_answers', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('question_id');
+            $table->enum('user_select', ['select1', 'select2', 'select3', 'select4', 'select5']);
+            $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+        });
         /*         Schema::create('pages', function (Blueprint $table) {
                     $table->id();
                     $table->string('name', 100);
@@ -90,9 +89,9 @@ return new class extends Migration {
                 Schema::dropIfExists('levels'); */
         Schema::dropIfExists('exams');
         Schema::dropIfExists('questions');
-        /*         Schema::dropIfExists('settings');
-                Schema::dropIfExists('pages');
-                Schema::dropIfExists('admins');
-                Schema::dropIfExists('messages'); */
+        Schema::dropIfExists('user_answers');
+        /*   Schema::dropIfExists('pages');
+           Schema::dropIfExists('admins');
+           Schema::dropIfExists('messages'); */
     }
 };
