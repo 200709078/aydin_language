@@ -13,7 +13,7 @@ class main_cont_user extends Controller
     }
     public function exam_detail($slug)
     {
-        $exam = exams_model::whereSlug($slug)->withCount('questions')->first() ?? abort(404, "EXAM NOT FOUND.");
+        $exam = exams_model::whereSlug($slug)->with('my_result', 'all_results')->withCount('questions')->first() ?? abort(404, "EXAM NOT FOUND.");
         return view("exam_detail", compact('exam'));
     }
     public function exam_join($slug)
@@ -25,6 +25,11 @@ class main_cont_user extends Controller
     {
         $exam = exams_model::with('questions')->whereSlug($slug)->first() ?? abort(404, 'EXAM NOT FOUND.');
         $correct = 0;
+
+        if ($exam->my_result()) {
+            abort(404, 'You have join this exam before.');
+        }
+
         foreach ($exam->questions as $question) {
             answers_model::create([
                 'user_id' => auth()->user()->id,
