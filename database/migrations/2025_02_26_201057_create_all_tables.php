@@ -56,6 +56,18 @@ return new class extends Migration {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
+        Schema::create('user_results', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('exam_id');
+            $table->integer('point');
+            $table->integer('correct_number');
+            $table->integer('wrong_number');
+            $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('exam_id')->references('id')->on('exams')->onDelete('cascade');
+        });
+
         /*         Schema::create('pages', function (Blueprint $table) {
                     $table->id();
                     $table->string('name', 100);
@@ -90,6 +102,7 @@ return new class extends Migration {
         Schema::dropIfExists('exams');
         Schema::dropIfExists('questions');
         Schema::dropIfExists('user_answers');
+        Schema::dropIfExists('user_results');
         /*   Schema::dropIfExists('pages');
            Schema::dropIfExists('admins');
            Schema::dropIfExists('messages'); */
