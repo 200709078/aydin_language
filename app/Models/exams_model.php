@@ -20,27 +20,40 @@ class exams_model extends Model
         'finished_at'
     ];
     protected $dates = ['finished_at'];
-    protected $appends=['details'];
+    protected $appends = ['details', 'my_rank'];
 
-    
-    public function getDetailsAttribute(){
-        if($this->all_results()->count() > 0){
+    public function getMyRankAttribute()
+    {
+        $rank = 0;
+        foreach ($this->all_results()->orderByDesc('point')->get() as $result) {
+            $rank += 1;
+            if (auth()->user()->id === $result->user_id) {
+                return $rank;
+            }
+        }
+    }
+
+    public function getDetailsAttribute()
+    {
+        if ($this->all_results()->count() > 0) {
             return [
-                'average'=>round($this->all_results()->avg('point'),2),
-                'join_count'=>$this->all_results()->count()
+                'average' => round($this->all_results()->avg('point'), 2),
+                'join_count' => $this->all_results()->count()
             ];
         }
         return null;
     }
-    public function my_result()
-    {
-        return $this->hasOne(results_model::class, 'exam_id')->where('user_id', auth()->user()->id);
-    }
-
-    
     public function all_results()
     {
         return $this->hasMany(results_model::class, 'exam_id');
+    }
+    public function topTen()
+    {
+        return $this->all_results()->orderByDesc('point')->take(10);
+    }
+    public function my_result()
+    {
+        return $this->hasOne(results_model::class, 'exam_id')->where('user_id', auth()->user()->id);
     }
     public function getFinishedAtAttribute($date)
     {
