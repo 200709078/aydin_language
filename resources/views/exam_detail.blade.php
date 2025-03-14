@@ -72,7 +72,7 @@
                     @if ($exam->my_result)
                         <a href="{{ route('exam.join', $exam->slug) }}" class="btn btn-warning btn-block btn-sm"
                             style="width: 100%;">See to Exam</a>
-                    @else
+                    @elseif($exam->finished_at>now())
                         <a href="{{ route('exam.join', $exam->slug) }}" class="btn btn-primary btn-block btn-sm"
                             style="width: 100%;">Join to Exam</a>
                     @endif

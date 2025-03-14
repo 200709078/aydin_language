@@ -9,13 +9,16 @@ class main_cont_user extends Controller
 {
     public function dashboard()
     {
-        $exams = exams_model::where('status', 'publish')->withCount('questions')->paginate(5);
-        return view("dashboard", compact('exams'));
+        $exams = exams_model::where('status', 'publish')->where(function ($query) {
+            $query->whereNull('finished_at')->orWhere('finished_at', '>', now());
+        })->withCount('questions')->paginate(5);
+        $my_results = auth()->user()->results;
+        return view("dashboard", compact('exams', 'my_results'));
     }
 
     public function exam_join($slug)
     {
-        $exam = exams_model::whereSlug($slug)->with('questions.my_answer','my_result')->first() ?? abort(404, 'EXAM NOT FOUND.');
+        $exam = exams_model::whereSlug($slug)->with('questions.my_answer', 'my_result')->first() ?? abort(404, 'EXAM NOT FOUND.');
         if ($exam->my_result != null) {
             return view('exam_result', compact('exam'));
         }

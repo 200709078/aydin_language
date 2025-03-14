@@ -20,6 +20,9 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    public function results(){
+        return $this->hasMany(results_model::class,'user_id');
+    }
     /**
      * The attributes that are mass assignable.
      *

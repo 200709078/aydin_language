@@ -16,7 +16,12 @@ class results_model extends Model
         'correct_number',
         'wrong_number'
     ];
-    public function top_users(){
-        return $this->belongsTo(User::class,'user_id');
+    public function top_users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function exam()
+    {
+        return $this->belongsTo(exams_model::class, 'exam_id');
     }
 }
