@@ -15,7 +15,7 @@ class main_cont_user extends Controller
 
     public function exam_join($slug)
     {
-        $exam = exams_model::whereSlug($slug)->with('questions.my_answer')->first() ?? abort(404, 'EXAM NOT FOUND.');
+        $exam = exams_model::whereSlug($slug)->with('questions.my_answer','my_result')->first() ?? abort(404, 'EXAM NOT FOUND.');
         if ($exam->my_result != null) {
             return view('exam_result', compact('exam'));
         }
