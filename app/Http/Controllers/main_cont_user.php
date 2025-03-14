@@ -4,6 +4,7 @@ use App\Models\answers_model;
 use App\Models\exams_model;
 use App\Models\results_model;
 use Illuminate\Http\Request;
+
 class main_cont_user extends Controller
 {
     public function dashboard()
@@ -11,22 +12,26 @@ class main_cont_user extends Controller
         $exams = exams_model::where('status', 'publish')->withCount('questions')->paginate(5);
         return view("dashboard", compact('exams'));
     }
+
+    public function exam_join($slug)
+    {
+        $exam = exams_model::whereSlug($slug)->with('questions.my_answer')->first() ?? abort(404, 'EXAM NOT FOUND.');
+        if ($exam->my_result != null) {
+            return view('exam_result', compact('exam'));
+        }
+        return view('exam_join', compact('exam'));
+    }
     public function exam_detail($slug)
     {
         $exam = exams_model::whereSlug($slug)->with('my_result', 'topTen.top_users')->withCount('questions')->first() ?? abort(404, "EXAM NOT FOUND.");
         return view("exam_detail", compact('exam'));
     }
-    public function exam_join($slug)
-    {
-        $exam = exams_model::whereSlug($slug)->with('questions')->first() ?? abort(404, 'EXAM NOT FOUND.');
-        return view('exam_join', compact('exam'));
-    }
+
     public function exam_result(Request $request, $slug)
     {
         $exam = exams_model::with('questions')->whereSlug($slug)->first() ?? abort(404, 'EXAM NOT FOUND.');
         $correct = 0;
-
-        if ($exam->my_result()) {
+        if ($exam->my_result != null) {
             abort(404, 'You have join this exam before.');
         }
 

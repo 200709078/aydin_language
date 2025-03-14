@@ -20,4 +20,9 @@ class questions_model extends Model
         'select5',
         'correct_answer'
     ];
+
+    public function my_answer()
+    {
+        return $this->hasOne(answers_model::class, 'question_id')->where('user_id',auth()->user()->id);
+    }
 }

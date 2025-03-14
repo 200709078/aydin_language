@@ -20,7 +20,7 @@ class exams_model extends Model
         'finished_at'
     ];
     protected $dates = ['finished_at'];
-    protected $appends = ['details', 'my_rank'];
+    protected $appends = ['details', 'MyRank'];
 
     public function getMyRankAttribute()
     {

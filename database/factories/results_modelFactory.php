@@ -17,7 +17,7 @@ class results_modelFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id'=>rand(1,10),
+            'user_id'=>rand(2,10),
             'exam_id'=>rand(1,10),
             'point'=>rand(1,100),
             'correct_number'=>rand(1,20),

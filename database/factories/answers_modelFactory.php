@@ -17,7 +17,7 @@ class answers_modelFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id'=>rand(1,10),
+            'user_id'=>rand(2,10),
             'question_id'=>rand(1,100),
             'user_select'=>rand(1,5)
         ];

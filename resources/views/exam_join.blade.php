@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">DETAIL: {{ $exam->title }} </x-slot>
+    <x-slot name="header">DETAIL: {{strtoupper($exam->title) }} </x-slot>
     <div class="card">
         <div class="card-body">
             <form method="POST" action="{{ route('exam.result', $exam->slug) }}">

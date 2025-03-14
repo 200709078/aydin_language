@@ -17,11 +17,13 @@ class exams_modelFactory extends Factory
      */
     public function definition(): array
     {
-        $title=fake()->sentence(rand(3,7));
+        $title = fake()->sentence(rand(3, 7));
+        $statuses = ['publish', 'unpublish', 'draft'];
         return [
-                'title'=>$title,
-                'slug'=>Str::slug($title),
-                'description'=>fake()->text(200)
+            'title' => $title,
+            'slug' => Str::slug($title),
+            'description' => fake()->text(200),
+            'status' => $statuses[rand(0, 2)]
         ];
     }
 }
