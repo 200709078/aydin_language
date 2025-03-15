@@ -3,29 +3,13 @@
     <div class="card">
         <div class="card-body">
             <p class="card-text">
+            <h5 class="card-title">
+                <a href="{{ route('exams.index') }}" class="btn btn-sm btn-secondary" title="Back to Exam List"><i
+                        class="fa fa-arrow-left"></i> Back to Exam List</a>
+            </h5>
             <div class="row">
                 <div class="col-md-4">
                     <ul class="list-group">
-                        @if ($exam->my_rank)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Your Exam Rank: <span class="badge badge-socondary badge-pill"
-                                    style="color:green;">{{$exam->my_rank }}</span>
-                            </li>
-                        @endif
-                        @if ($exam->my_result)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Your Point: <span class="badge badge-socondary badge-pill"
-                                    style="color:red;">{{$exam->my_result->point }}</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Correct Answers Number: <span class="badge badge-socondary badge-pill"
-                                    style="color:red;">{{$exam->my_result->correct_number }}</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Wrong Answers Number: <span class="badge badge-socondary badge-pill"
-                                    style="color:red;">{{$exam->my_result->wrong_number }}</span>
-                            </li>
-                        @endif
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Number of Question: <span class="badge badge-socondary badge-pill"
                                 style="color:red;">{{ $exam->questions_count }}</span>
@@ -70,13 +54,30 @@
                 </div>
                 <div class="col-md-8">
                     {{$exam->description}}
-                    @if ($exam->my_result)
-                        <a href="{{ route('exam.join', $exam->slug) }}" class="btn btn-warning btn-block btn-sm"
-                            style="width: 100%;">See to Exam</a>
-                    @elseif($exam->finished_at > now())
-                        <a href="{{ route('exam.join', $exam->slug) }}" class="btn btn-primary btn-block btn-sm"
-                            style="width: 100%;">Join to Exam</a>
-                    @endif
+
+                    <table class="table table-bordered mt-3">
+                        <thead>
+                            <tr>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Point</th>
+                                <th scope="col">Number of Correct</th>
+                                <th scope="col">Number of Wrong</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($exam->results as $result)
+                                <tr>
+                                    <td>{{ $result->user->name }}</td>
+                                    <td>{{ $result->point }}</td>
+                                    <td>{{ $result->correct_number }}</td>
+                                    <td>{{ $result->wrong_number }}</td>
+                                </tr>
+                            @endforeach
+
+
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
             </p>

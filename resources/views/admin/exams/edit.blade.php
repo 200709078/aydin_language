@@ -2,6 +2,10 @@
     <x-slot name="header">EDIT EXAM {{$exam->title }}</x-slot>
     <div class="card">
         <div class="card-body">
+            <h5 class="card-title">
+                <a href="{{ route('exams.index') }}" class="btn btn-sm btn-secondary" title="CANCEL"><i
+                        class="fa fa-arrow-left"></i> CANCEL</a>
+            </h5>
             <form method="POST" action="{{ route('exams.update',$exam->id) }}">
                 @method('PUT')
                 @csrf

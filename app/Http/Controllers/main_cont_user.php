@@ -26,7 +26,7 @@ class main_cont_user extends Controller
     }
     public function exam_detail($slug)
     {
-        $exam = exams_model::whereSlug($slug)->with('my_result', 'topTen.top_users')->withCount('questions')->first() ?? abort(404, "EXAM NOT FOUND.");
+        $exam = exams_model::whereSlug($slug)->with('my_result', 'topTen.user')->withCount('questions')->first() ?? abort(404, "EXAM NOT FOUND.");
         return view("exam_detail", compact('exam'));
     }
 

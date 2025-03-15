@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\exams_model;
 use App\Http\Requests\ExamCreateRequest;
 use App\Http\Requests\ExamUpdateRequest;
+use App\Models\results_model;
 use Illuminate\Support\Str;
 
 class exams_cont_admin extends Controller
@@ -13,13 +14,13 @@ class exams_cont_admin extends Controller
     public function index()
     {
         $exams = exams_model::withCount('questions');
-        if( request()->get('title')){
-            $exams= $exams->where('title','like','%'.request()->get('title').'%');
+        if (request()->get('title')) {
+            $exams = $exams->where('title', 'like', '%' . request()->get('title') . '%');
         }
-        if( request()->get('status')){
-            $exams= $exams->where('status',request()->get('status'));
+        if (request()->get('status')) {
+            $exams = $exams->where('status', request()->get('status'));
         }
-        $exams=$exams->paginate(5);
+        $exams = $exams->orderByDesc('created_at')->paginate(5);
         return view('admin.exams.list', compact('exams'));
     }
     public function create()
@@ -32,10 +33,15 @@ class exams_cont_admin extends Controller
         return redirect()->route('exams.index')->with('success', 'NEW EXAM ADD SUCCESSFULLY...');
     }
 
+
+
     public function show(string $id)
     {
-        //
+        $exam = exams_model::with('topTen.user', 'results.user')->withCount('questions')->find($id) ?? abort(404, "EXAM NOT FOUND.");
+        return view('admin.exams.show', compact('exam'));
     }
+
+
     public function edit(string $id)
     {
         $exam = exams_model::withCount('questions')->find($id) ?? abort(404, 'EXAM NOT FOUND');

@@ -5,7 +5,7 @@
             <h5 class="card-title float-right">
                 <a href="{{ route('exams.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Create Exam</a>
             </h5>
-            <form method="GET" action="">
+            <form method="GET">
                 <div class="form-row">
                     <div class="col-md-2">
                         <input type="text" name="title" value="{{request()->get('title')}}" placeholder="Exam Name" class="form-control">
@@ -29,7 +29,8 @@
             <table class="table table-striped table-sm">
                 <thead>
                     <tr>
-                        <th scope="col">EXAM</th>
+                        <th scope="col">EXAM TITLE</th>
+                        <th scope="col">EXAM DESCRIPTION</th>
                         <th scope="col">NUMBER OF QUESTION</th>
                         <th scope="col">STATUS</th>
                         <th scope="col">FINISHED AT</th>
@@ -38,13 +39,18 @@
                 </thead>
                 <tbody>
                     @foreach ($exams as $exam)
-                        <tr>
-                            <th scope="row">{{ $exam->title }}</th>
-                            <td>{{ $exam->questions_count}}</td>
+                        <tr class="align-middle">
+                            <th class="col-md-3" scope="row">{{ $exam->title }}</th>
+                            <td class="col-md-3">{{\Illuminate\Support\Str::limit($exam->description, 50, $end='...')}}</td>
+                            <td class="col-md-2">{{ $exam->questions_count}}</td>
                             <td>
                                 @switch($exam->status)
                                     @case('publish')
-                                        <span class="badge bg-success">Publish</span>
+                                        @if (!$exam->finished_at || $exam->finished_at>now())
+                                            <span class="badge bg-success">Publish</span>
+                                        @else
+                                            <span class="badge bg-secondary">Expired</span>
+                                        @endif
                                         @break
                                     @case('unpublish')
                                         <span class="badge bg-danger">Unpublish</span>
@@ -60,12 +66,15 @@
                                 </span>
                             </td>
                             <td>
+                                <a href="{{ route('exams.details',$exam->id) }}" @if($exam->questions_count==0) class="btn btn-sm btn-secondary disabled" @else class="btn btn-sm btn-secondary" @endif title="Show Detail">
+                                    <i class="fa fa-info w-4"></i>
+                                </a>
                                 <a href="{{ route('questions.index', $exam->id) }}" class="btn btn-sm btn-warning" title="List Questions"><i
-                                        class="fa fa-list"></i></a>
+                                        class="fa fa-list w-4"></i></a>
                                 <a href="{{ route('exams.edit', $exam->id) }}" class="btn btn-sm btn-primary" title="Edit Exam"><i
-                                        class="fa fa-pen"></i></a>
+                                        class="fa fa-pen w-4"></i></a>
                                 <a href="{{ route('exams.destroy', $exam->id) }}" class="btn btn-sm btn-danger" title="Delete Exam"><i
-                                        class="fa fa-times"></i></a>
+                                        class="fa fa-times w-4"></i></a>
                             </td>
                         </tr>
                     @endforeach

@@ -20,12 +20,13 @@ class exams_model extends Model
         'finished_at'
     ];
     protected $dates = ['finished_at'];
-    protected $appends = ['details', 'MyRank'];
+    //protected $appends = ['details', 'MyRank'];
+    protected $appends = ['details'];
 
     public function getMyRankAttribute()
     {
         $rank = 0;
-        foreach ($this->all_results()->orderByDesc('point')->get() as $result) {
+        foreach ($this->results()->orderByDesc('point')->get() as $result) {
             $rank += 1;
             if (auth()->user()->id === $result->user_id) {
                 return $rank;
@@ -35,21 +36,21 @@ class exams_model extends Model
 
     public function getDetailsAttribute()
     {
-        if ($this->all_results()->count() > 0) {
+        if ($this->results()->count() > 0) {
             return [
-                'average' => round($this->all_results()->avg('point'), 2),
-                'join_count' => $this->all_results()->count()
+                'average' => round($this->results()->avg('point'), 2),
+                'join_count' => $this->results()->count()
             ];
         }
         return null;
     }
-    public function all_results()
+    public function results()
     {
         return $this->hasMany(results_model::class, 'exam_id');
     }
     public function topTen()
     {
-        return $this->all_results()->orderByDesc('point')->take(10);
+        return $this->results()->orderByDesc('point')->take(10);
     }
     public function my_result()
     {
